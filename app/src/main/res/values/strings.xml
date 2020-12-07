@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Login</string>
+    <string name="get_started">Get Started</string>
+    <string name="country_code">+91</string>
+    <string name="enter_your_mobile_number">Enter your mobile number</string>
+    <string name="verify_and_login">Verify and login</string>
+    <string name="otp_message">Enter the otp sent to your mobile</string>
+    <string name="enter_otp_text">Enter 4 digit OTP</string>
+    <string name="resend_otp_text">Did not receive and SMS? Resend OTP</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="register_as_a_fleet_owner">Register as a Fleet Owner</string>
+    <string name="authorization_token">7q4xh3a4okbwvp347xibt7lq8e5v7sbm</string>
+</resources>
