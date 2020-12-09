@@ -13,7 +13,6 @@ import com.example.login.databinding.FragmentGetStartedBinding
 import com.example.login.model.SendOtpRequest
 import com.example.login.model.SendOtpResponse
 import com.example.login.network.ServiceBuilder
-import com.example.login.network.LoginApiService
 import com.example.login.sharedPreferences.App
 import com.example.login.sharedPreferences.Prefs
 import retrofit2.Call
@@ -42,29 +41,32 @@ class GetStartedFragment : Fragment() {
             val mobileNumber = binding.enterMobileNumber.text.toString()
             prefs.mobileNumber = mobileNumber
             if(mobileNumber.length == 10){
-                val request = SendOtpRequest("otp", mobileNumber)
-
-                retrofitClient.sendOtp("Token :" + R.string.authorization_token, request).enqueue(object : Callback<SendOtpResponse>{
-                    override fun onResponse(call: Call<SendOtpResponse>, response: Response<SendOtpResponse>) {
-                        if(response.isSuccessful) {
-                            view.findNavController().navigate(
-                                GetStartedFragmentDirections.actionGetStartedFragmentToVerifyAndLoginFragment()
-                                    .setMobileNumber(mobileNumber)
-                            )
-                        }
-                        else{
-                            Toast.makeText(activity, "Failure: $response", Toast.LENGTH_SHORT ).show()
-                        }
-                    }
-                    override fun onFailure(call: Call<SendOtpResponse>, t: Throwable) {
-                        Toast.makeText(activity, "Failure: " + t.message, Toast.LENGTH_SHORT ).show()
-                    }
-                })
+                sendOtp(view,mobileNumber)
             }
             else{
                 Toast.makeText(activity?.applicationContext, "mobile number should have 10 digits", Toast.LENGTH_LONG).show()
             }
         }
         return binding.root
+    }
+
+    fun sendOtp(view : View, mobileNumber : String){
+        val request = SendOtpRequest("otp", mobileNumber)
+
+        retrofitClient.sendOtp("Token :" + R.string.authorization_token, request).enqueue(object : Callback<SendOtpResponse>{
+            override fun onResponse(call: Call<SendOtpResponse>, response: Response<SendOtpResponse>) {
+                if(response.isSuccessful) {
+                    view.findNavController().navigate(
+                            GetStartedFragmentDirections.actionGetStartedFragmentToVerifyAndLoginFragment()
+                    )
+                }
+                else{
+                    Toast.makeText(activity, "Failure: please enter correct number", Toast.LENGTH_SHORT ).show()
+                }
+            }
+            override fun onFailure(call: Call<SendOtpResponse>, t: Throwable) {
+                Toast.makeText(activity, "Failure: " + t.message, Toast.LENGTH_SHORT ).show()
+            }
+        })
     }
 }
