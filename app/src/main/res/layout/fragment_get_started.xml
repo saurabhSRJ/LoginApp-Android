@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/getStartedLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:visibility="visible">
 
         <TextView
@@ -37,6 +37,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="@dimen/margin_narrow"
             android:text="@string/country_code"
+            android:textSize="@dimen/small_text_size"
             android:textColor="@color/black"
             app:layout_constraintBaseline_toBaselineOf="@id/enter_mobile_number"
             app:layout_constraintBottom_toTopOf="@id/continue_button"
@@ -73,5 +74,36 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/enter_mobile_number" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id = "@+id/terms_and_conditions"
+            android:layout_marginStart="@dimen/margin_wide"
+            android:layout_marginEnd="@dimen/margin_wide"
+            android:layout_marginTop="@dimen/margin_wide"
+            android:text="Terms &amp; conditions"
+            android:textColor="@color/link_color"
+            app:layout_constraintTop_toBottomOf="@id/continue_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/privacy_policy"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id = "@+id/privacy_policy"
+            android:layout_marginStart="@dimen/margin_wide"
+            android:layout_marginEnd="@dimen/margin_wide"
+            android:layout_marginTop="@dimen/margin_wide"
+            android:text="Privacy Policy"
+            android:textColor="@color/link_color"
+            app:layout_constraintBaseline_toBaselineOf="@id/terms_and_conditions"
+            app:layout_constraintTop_toBottomOf="@id/continue_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/terms_and_conditions"
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

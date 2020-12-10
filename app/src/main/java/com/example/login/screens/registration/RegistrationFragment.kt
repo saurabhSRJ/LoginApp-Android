@@ -34,30 +34,29 @@ class RegistrationFragment : Fragment() {
         // Inflate the layout for this fragment
         val binding = DataBindingUtil.inflate<FragmentRegistrationBinding>(inflater,
             R.layout.fragment_registration,container,false)
-//        binding.registerButton.setOnClickListener { view : View ->
-//            val fleetId = prefs.userDetails!!.fleetId;
-//            val name = binding.username.text.toString()
-//            val numberOfTrucks = Integer.parseInt(binding.trucksInput.text.toString())
-//            val requestBody = RegisterUserRequest(fleetId,name,numberOfTrucks);
-//
-//            retrofitClient.registerUser("Token :"+prefs.sessionToken, requestBody).enqueue(object : Callback<UserDetailResponse> {
-//                override fun onResponse(call: Call<UserDetailResponse>, response: Response<UserDetailResponse>) {
-//                    if(response.isSuccessful){
-//                        val userDetails : UserDetailResponse = response.body()!!
-//                        prefs.userDetails = userDetails
-//                        view.findNavController().navigate(R.id.action_registrationFragment_to_homePageActivity)
-//                    }
-//                    else{
-//                        Toast.makeText(activity?.applicationContext, "Failure: Please try again",Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<UserDetailResponse>, t: Throwable) {
-//                    Toast.makeText(activity?.applicationContext, "Failure: ${t.message}", Toast.LENGTH_SHORT).show()
-//                }
-//            })
-//        }
-//        binding.registerButton.setOnClickListener {view : View -> view.findNavController().navigate(R.id.action_registrationFragment_to_homePageActivity) }
+        binding.registerButton.setOnClickListener { view : View ->
+            val fleetId = prefs.userDetails!!.fleetId;
+            val name = binding.username.text.toString()
+            val numberOfTrucks = Integer.parseInt(binding.trucksInput.text.toString())
+            val requestBody = RegisterUserRequest(fleetId,name,numberOfTrucks);
+
+            retrofitClient.registerUser("Token :"+prefs.sessionToken, requestBody).enqueue(object : Callback<UserDetailResponse> {
+                override fun onResponse(call: Call<UserDetailResponse>, response: Response<UserDetailResponse>) {
+                    if(response.isSuccessful){
+                        val userDetails : UserDetailResponse = response.body()!!
+                        prefs.userDetails = userDetails
+                        view.findNavController().navigate(R.id.action_registrationFragment_to_homePageActivity)
+                    }
+                    else{
+                        Toast.makeText(activity?.applicationContext, "Failure: Please try again",Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<UserDetailResponse>, t: Throwable) {
+                    Toast.makeText(activity?.applicationContext, "Failure: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
         return binding.root
     }
 }

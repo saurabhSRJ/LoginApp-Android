@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
@@ -15,6 +16,7 @@ import com.example.login.model.SendOtpResponse
 import com.example.login.network.ServiceBuilder
 import com.example.login.sharedPreferences.App
 import com.example.login.sharedPreferences.Prefs
+import kotlinx.android.synthetic.main.fragment_get_started.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,7 +39,9 @@ class GetStartedFragment : Fragment() {
         // Inflate the layout for this fragment
         val binding : FragmentGetStartedBinding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_get_started,container,false);
-        binding.continueButton.setOnClickListener { view : View ->
+        val button : Button = binding.continueButton;
+        button.setOnClickListener { view : View ->
+//            button.setBackgroundColor(resources.getColor(R.color.purple_200))
             val mobileNumber = binding.enterMobileNumber.text.toString()
             prefs.mobileNumber = mobileNumber
             if(mobileNumber.length == 10){
@@ -47,6 +51,12 @@ class GetStartedFragment : Fragment() {
                 Toast.makeText(activity?.applicationContext, "mobile number should have 10 digits", Toast.LENGTH_LONG).show()
             }
         }
+//        binding.termsAndConditions.setOnClickListener{view : View ->
+//            val webView = binding.webview
+//            webView.loadUrl("https://boss.blackbuck.com/bossappterms")
+//            val webSettings = webView.settings
+//            webSettings.javaScriptEnabled = true;
+//        }
         return binding.root
     }
 

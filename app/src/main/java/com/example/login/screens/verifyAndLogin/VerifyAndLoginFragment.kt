@@ -12,6 +12,7 @@ import com.example.login.R
 import com.example.login.databinding.FragmentVerifyAndLoginBinding
 import com.example.login.model.*
 import com.example.login.network.ServiceBuilder
+import com.example.login.screens.getStarted.GetStartedFragmentDirections
 import com.example.login.sharedPreferences.App
 import com.example.login.sharedPreferences.Prefs
 import retrofit2.Call
@@ -50,7 +51,28 @@ class VerifyAndLoginFragment : Fragment() {
                 Toast.makeText(activity?.applicationContext,"OTP should be of 4 digits",Toast.LENGTH_LONG).show()
             }
         }
+
+        binding.resendOtp.setOnClickListener{ view : View ->
+            sendOtp(view,mobileNumber)
+        }
         return binding.root
+    }
+
+    private fun sendOtp(view : View, mobileNumber : String) {
+        val request = SendOtpRequest("otp", mobileNumber)
+
+        retrofitClient.sendOtp("Token :" + R.string.authorization_token, request).enqueue(object : Callback<SendOtpResponse> {
+            override fun onResponse(call: Call<SendOtpResponse>, response: Response<SendOtpResponse>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(activity, "Enter Otp Now", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(activity, "Failure: Server Error", Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun onFailure(call: Call<SendOtpResponse>, t: Throwable) {
+                Toast.makeText(activity, "Failure: " + t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun verifyOtp(view : View, otp : String, mobileNumber : String){
