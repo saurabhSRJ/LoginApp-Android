@@ -11,4 +11,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="register_as_a_fleet_owner">Register as a Fleet Owner</string>
     <string name="authorization_token">7q4xh3a4okbwvp347xibt7lq8e5v7sbm</string>
+    <string name="enter_your_full_name">Enter your full name</string>
+    <string name="number_of_trucks_you_own">Number of trucks you own</string>
+    <string name="referral_code">Do you have a referral code ?</string>
 </resources>

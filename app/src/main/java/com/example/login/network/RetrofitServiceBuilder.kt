@@ -8,7 +8,6 @@ import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-
 private const val BASE_URL = "https://preprod-boss-auth.blackbuck.com/"
 
 private val moshi = Moshi.Builder()

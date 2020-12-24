@@ -10,10 +10,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.example.login.R
 import com.example.login.databinding.FragmentVerifyAndLoginBinding
-import com.example.login.model.SendOtpResponse
-import com.example.login.model.VerifyOtpRequest
-import com.example.login.model.VerifyOtpResponse
+import com.example.login.model.*
 import com.example.login.network.ServiceBuilder
+import com.example.login.screens.getStarted.GetStartedFragmentDirections
 import com.example.login.sharedPreferences.App
 import com.example.login.sharedPreferences.Prefs
 import retrofit2.Call
@@ -38,30 +37,85 @@ class VerifyAndLoginFragment : Fragment() {
         // Inflate the layout for this fragment
         val binding : FragmentVerifyAndLoginBinding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_verify_and_login,container,false)
-        //use safeArgs to pass mobile number between fragments
-//        val mobileNumber = VerifyAndLoginFragmentArgs.fromBundle(requireArguments()).mobileNumber
+
         val mobileNumber = prefs.mobileNumber
+        println(mobileNumber)
         val message = "Enter the otp sent to your mobile $mobileNumber"
         binding.apply {  enterOtpMessage.text = message }
         binding.verifyButton.setOnClickListener { view : View ->
             val otp = binding.enterOtp.text.toString()
             if(otp.length == 4){
-                val requestBody = VerifyOtpRequest(otp,mobileNumber)
-                retrofitClient.verifyOtp("Token :" + R.string.authorization_token, requestBody).enqueue(object : Callback<VerifyOtpResponse>{
-                    override fun onResponse(call: Call<VerifyOtpResponse>, response: Response<VerifyOtpResponse>) {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onFailure(call: Call<VerifyOtpResponse>, t: Throwable) {
-                        TODO("Not yet implemented")
-                    }
-                })
-
+                verifyOtp(view,otp,mobileNumber)
             }
             else{
                 Toast.makeText(activity?.applicationContext,"OTP should be of 4 digits",Toast.LENGTH_LONG).show()
             }
         }
+
+        binding.resendOtp.setOnClickListener{ view : View ->
+            sendOtp(view,mobileNumber)
+        }
         return binding.root
+    }
+
+    private fun sendOtp(view : View, mobileNumber : String) {
+        val request = SendOtpRequest("otp", mobileNumber)
+
+        retrofitClient.sendOtp("Token :" + R.string.authorization_token, request).enqueue(object : Callback<SendOtpResponse> {
+            override fun onResponse(call: Call<SendOtpResponse>, response: Response<SendOtpResponse>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(activity, "Enter Otp Now", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(activity, "Failure: Server Error", Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun onFailure(call: Call<SendOtpResponse>, t: Throwable) {
+                Toast.makeText(activity, "Failure: " + t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun verifyOtp(view : View, otp : String, mobileNumber : String){
+        val requestBody = VerifyOtpRequest(otp,mobileNumber)
+        retrofitClient.verifyOtp("Token :" + R.string.authorization_token, requestBody).enqueue(object : Callback<VerifyOtpResponse>{
+            override fun onResponse(call: Call<VerifyOtpResponse>, response: Response<VerifyOtpResponse>) {
+                if(response.isSuccessful){
+                    prefs.sessionToken = response.body()!!.sessionKey
+                    fetchUserDetails(view,mobileNumber)
+                }
+                else{
+                    Toast.makeText(activity,"Failure: Wrong OTP entered", Toast.LENGTH_LONG).show()
+                }
+            }
+            override fun onFailure(call: Call<VerifyOtpResponse>, t: Throwable) {
+                Toast.makeText(activity?.applicationContext, "Failure: ${t.message}",Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun fetchUserDetails(view: View, mobileNumber: String){
+        val requestBody = FetchUserDetailRequest(mobileNumber)
+        retrofitClient.fetchUser("Token :"+prefs.sessionToken, requestBody).enqueue(object :Callback<UserDetailResponse>{
+            override fun onResponse(call: Call<UserDetailResponse>, response: Response<UserDetailResponse>) {
+                if(response.isSuccessful){
+                    val userDetails : UserDetailResponse = response.body()!!
+                    prefs.userDetails = userDetails
+                    if(userDetails.newUser){
+                        view.findNavController().navigate(R.id.action_verifyAndLoginFragment_to_registrationFragment)
+                    }
+                    else{
+                        view.findNavController().navigate(R.id.action_verifyAndLoginFragment_to_homePageActivity)
+                    }
+                }
+                else{
+                    Toast.makeText(activity?.applicationContext, "Failure: Please try again",Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<UserDetailResponse>, t: Throwable) {
+                Toast.makeText(activity?.applicationContext, "Failure: ${t.message}",Toast.LENGTH_SHORT).show()
+            }
+
+        })
     }
 }

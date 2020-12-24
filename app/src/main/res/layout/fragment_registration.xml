@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".screens.registration.RegistrationFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/getStartedLayout"
+        android:id="@+id/RegistrationLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible">
@@ -23,6 +23,86 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/usernameTextInputLayout"
             />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/usernameTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_wide"
+            android:layout_marginEnd="@dimen/margin_wide"
+            android:layout_marginTop="@dimen/margin_wide"
+            app:layout_constraintTop_toBottomOf="@id/registerAsFleetOwner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/trucksInputText"
+            >
+            <EditText
+                android:id = "@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:hint="@string/enter_your_full_name"
+                android:inputType="textPersonName"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/trucksInputText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/number_of_trucks_you_own"
+            android:textColor="@color/black"
+            android:layout_marginStart="@dimen/margin_wide"
+            android:layout_marginTop="@dimen/margin_wide"
+            android:layout_marginEnd="@dimen/margin_wide"
+            app:layout_constraintTop_toBottomOf="@id/usernameTextInputLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/trucksInput"
+            />
+        <EditText
+            android:id = "@+id/trucksInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:inputType="number"
+            android:labelFor="@id/trucksInputText"
+            android:layout_marginStart="@dimen/margin_wide"
+            android:layout_marginEnd="@dimen/margin_wide"
+            app:layout_constraintTop_toBottomOf="@id/trucksInputText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/referralCode"
+            />
+
+        <TextView
+            android:id="@+id/referralCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_wide"
+            android:layout_marginEnd="@dimen/margin_wide"
+            android:layout_marginTop="@dimen/margin_wide"
+            android:text="@string/referral_code"
+            android:textColor="@color/link_color"
+            app:layout_constraintTop_toBottomOf="@id/trucksInput"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/register_button"
+            />
+        <Button
+            android:id="@+id/register_button"
+            style="@style/box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_wide"
+            android:layout_marginTop="@dimen/margin_wide"
+            android:layout_marginEnd="@dimen/margin_wide"
+            android:text="CONTINUE"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/referralCode" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

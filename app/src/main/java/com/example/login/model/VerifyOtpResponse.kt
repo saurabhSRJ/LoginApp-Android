@@ -2,20 +2,20 @@ package com.example.login.model
 
 import com.squareup.moshi.Json
 
-class VerifyOtpResponse {
+data class VerifyOtpResponse (
     @Json(name = "user")
-    var user: User? = null
+    val user: User,
 
     @Json(name = "isAdmin")
-    var isAdmin: Boolean? = null
+    val isAdmin: Boolean,
 
     @Json(name = "sessionKey")
-    var sessionKey: String? = null
+    val sessionKey: String,
 
     @Json(name = "roles")
-    var roles: List<Any>? = null
+    val roles: List<Any>?,
 
     @Json(name = "functions")
-    var functions: List<Any>? = null
-}
+    val functions: List<Any>,
+)
 

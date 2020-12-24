@@ -18,10 +18,6 @@
         android:name="com.example.login.screens.verifyAndLogin.VerifyAndLoginFragment"
         android:label=""
         tools:layout="@layout/fragment_verify_and_login">
-        <argument
-            android:name="mobileNumber"
-            app:argType="string"
-            android:defaultValue="" />
         <action
             android:id="@+id/action_verifyAndLoginFragment_to_registrationFragment"
             app:destination="@id/registrationFragment"
@@ -31,7 +27,7 @@
             android:id="@+id/action_verifyAndLoginFragment_to_homePageActivity"
             app:destination="@id/homePageActivity"
             app:popUpTo="@id/getStartedFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
